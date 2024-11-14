@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    /* From Uiverse.io by vishnu1100 */
+    body {
+
+        background-color: rgba(7, 7, 7, 0.801);
+    }
+
+
+    .letter-image {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 200px;
+        height: 200px;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+        z-index: 1;
+
+
+    }
+
+    .animated-mail {
+        position: absolute;
+        height: 150px;
+        width: 200px;
+        -webkit-transition: 0.4s;
+        -moz-transition: 0.4s;
+        transition: 0.4s;
+    }
+
+    .body {
+        position: absolute;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 0 100px 200px;
+        border-color: transparent transparent #e95f55 transparent;
+        z-index: 2;
+    }
+
+    .top-fold {
+        position: absolute;
+        top: 50px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 50px 100px 0 100px;
+        -webkit-transform-origin: 50% 0%;
+        -webkit-transition: transform 0.4s 0.4s, z-index 0.2s 0.4s;
+        -moz-transform-origin: 50% 0%;
+        -moz-transition: transform 0.4s 0.4s, z-index 0.2s 0.4s;
+        transform-origin: 50% 0%;
+        transition: transform 0.4s 0.4s, z-index 0.2s 0.4s;
+        border-color: #cf4a43 transparent transparent transparent;
+        z-index: 2;
+    }
+
+    .back-fold {
+        position: absolute;
+        bottom: 0;
+        width: 200px;
+        height: 100px;
+        background: #cf4a43;
+        z-index: 0;
+    }
+
+    .left-fold {
+        position: absolute;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 50px 0 50px 100px;
+        border-color: transparent transparent transparent #e15349;
+        z-index: 2;
+    }
+
+    .letter {
+        left: 20px;
+        bottom: 0px;
+        position: absolute;
+        width: 160px;
+        height: 60px;
+        background: white;
+        z-index: 1;
+        overflow: hidden;
+        -webkit-transition: 0.4s 0.2s;
+        -moz-transition: 0.4s 0.2s;
+        transition: 0.4s 0.2s;
+    }
+
+    .letter-border {
+        height: 10px;
+        width: 100%;
+        background: repeating-linear-gradient(-45deg,
+                #cb5a5e,
+                #cb5a5e 8px,
+                transparent 8px,
+                transparent 18px);
+    }
+
+    .letter-title {
+        margin-top: 10px;
+        margin-left: 5px;
+        height: 10px;
+        width: 40%;
+        background: #cb5a5e;
+    }
+
+    .letter-context {
+        margin-top: 10px;
+        margin-left: 5px;
+        height: 10px;
+        width: 20%;
+        background: #cb5a5e;
+    }
+
+    .letter-stamp {
+        margin-top: 30px;
+        margin-left: 120px;
+        border-radius: 100%;
+        height: 30px;
+        width: 30px;
+        background: #cb5a5e;
+        opacity: 0.3;
+    }
+
+    .shadow {
+        position: absolute;
+        top: 200px;
+        left: 50%;
+        width: 400px;
+        height: 30px;
+        transition: 0.4s;
+        transform: translateX(-50%);
+        -webkit-transition: 0.4s;
+        -webkit-transform: translateX(-50%);
+        -moz-transition: 0.4s;
+        -moz-transform: translateX(-50%);
+        border-radius: 100%;
+        background: radial-gradient(rgba(0, 0, 0, 0.5),
+                rgba(0, 0, 0, 0),
+                rgba(0, 0, 0, 0));
+    }
+
+    .letter-image:hover .animated-mail {
+        transform: translateY(50px);
+    }
+
+    .letter-image:hover .top-fold {
+        transform: rotateX(180deg);
+        z-index: 0;
+    }
+
+    .letter-image:hover .letter {
+        height: 180px;
+    }
+
+    .letter-image:hover .shadow {
+        width: 250px;
+    }
+
+    .read-btn {
+        position: absolute;
+        top: 80%;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 10px 20px;
+        background-color: #ff6f61;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .read-btn:hover {
+        background-color: #e95f55;
+    }
+
+    /* Top fold animation */
+    .envelope-container:hover .top-fold {
+        transform: rotateX(180deg);
+
+    }
+
+    /* Polaroid Popup */
+    .polaroid-popup {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 280px;
+        height: 350px;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        z-index: 1;
+        perspective: 1000px;
+        /* Enable 3D space for flipping */
+        display: none;
+        /* Start hidden */
+    }
+
+    .polaroid {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 1s;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(5, 5, 5, 0.932);
+    }
+
+    /* Hover effect to flip the polaroid */
+    .polaroid:hover {
+        transform: rotateY(180deg);
+    }
+
+    /* Front side of Polaroid */
+    .polaroid .front {
+        position: absolute;
+        /* Position the front */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #f1f1f1;
+        border-radius: 15px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        backface-visibility: hidden;
+        /* Hide the front when flipped */
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Front image */
+    .polaroid .front img {
+        max-width: 90%;
+        max-height: 65%;
+        object-fit: cover;
+        transform: translateX(6%);
+        margin-top: 4%;
+
+        border-radius: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .polaroid .back {
+        position: absolute;
+        top: 0;
+        left: -50%;
+        /* Move the back to the right (adjust percentage as needed) */
+        width: 200%;
+        height: 100%;
+        padding-top: 5%;
+        padding-bottom: 5%;
+        padding-left: 5%;
+        padding-right: 5%;
+        background-color: #ffffff;
+        font-size: 20px;
+        text-align: left;
+        color: #333;
+        box-sizing: border-box;
+        transform: rotateY(180deg);
+        backface-visibility: hidden;
+        overflow-y: auto;
+        line-height: 1.6;
+        border-radius: 15px;
+    }
+
+
+
+    /* Button styling */
+    .read-btn {
+        position: absolute;
+        top: 80%;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 10px 20px;
+        background-color: #ff6f61;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .read-btn:hover {
+        background-color: #e95f55;
+    }
+</style>
+
+<body>
+    <!-- Envelope Container -->
+    <div class="envelope-container">
+        <div class="letter-image">
+            <div class="animated-mail">
+                <div class="back-fold"></div>
+                <div class="letter">
+                    <div class="letter-border"></div>
+                    <div class="letter-title"></div>
+                    <div class="letter-context"></div>
+                    <div class="letter-stamp">
+                        <div class="letter-stamp-inner"></div>
+                    </div>
+                </div>
+                <div class="top-fold"></div>
+                <div class="body"></div>
+                <div class="left-fold"></div>
+                <div class="right-fold"></div>
+            </div>
+            <div class="shadow"></div>
+
+        </div>
+
+        <button class="read-btn" id="readLetterBtn">Read the Letter</button>
+    </div>
+
+    <!-- Polaroid Popup -->
+    <div class="polaroid-popup" id="polaroidPopup">
+        <div class="polaroid">
+            <!-- Front Side -->
+            <div class="front">
+                <img src="images/bdboi.png" alt="Polaroid Picture">
+                <p>Happy Birthday Love!</p>
+            </div>
+            <!-- Back Side (where the letter is) -->
+            <div class="back">
+                <p>Happy birthday, boo! Midnight pa, pero I can’t wait to see you and wish you a
+                    happy birthday kay also, it's our anniversary! Wowowooow, HAHAHA! It's been a year na pala, and I'm
+                    so thankful to have you with me. This past year may not be perfect, but it made me feel so much
+                    better having you beside me and unta I made you feel the same, no HAHAHA. basi puro kalangot lang
+                    imo
+                    na-feel sa ako ba? :( Aw emz, I hope tomorrow will be special to you, kasi it is for me mwehehe!
+
+                    bitaw baboo I hope this year, and all the years ahead, will bring
+                    you pure and genuine happiness. I want you to be happy and well! And I pray no na you’re always
+                    blessed and guided ni Lord, pasalamat na nahatagan kag another year biskan
+                    wanaka ganahi HAHSASHSA
+
+                    anyways, tomorrow let’s celebrate your birthday and the day na we started together :> I love
+                    you boo! I hope na my love will always reach you, and i will always make you feel loved and cared
+                    for,
+                    kasi you deserve mo yan HSHASHAHehe And hopefully ako gihapon imong uban to celebrate more birthdays
+                    and
+                    anniversaries in the future HASHASHAHS. Happy birthday and happy anniversary, my boo! ILOVEYOU</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const button = document.querySelector('.read-btn');
+        const popup = document.getElementById('polaroidPopup');
+        const body = document.querySelector('body');
+
+        button.addEventListener('click', function () {
+            // Show the Polaroid popup
+            popup.style.display = 'block';
+
+            // Add blur effect to the background
+            body.classList.add('blur-background');
+        });
+        document.getElementById("readLetterBtn").addEventListener("click", function () {
+            // Hide the button by changing the display property
+            this.style.display = "none";
+
+            // Optionally, you can show the Polaroid popup here
+            document.querySelector(".polaroid-popup").style.display = "block";
+        });
+
+        var password = prompt("Enter fav drink to view:");
+
+        if (password !== "matcha") {
+            document.body.innerHTML = "Access Denied!";
+        }
+
+
+
+    </script>
+</body>
+
+</html>
